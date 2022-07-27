@@ -1,6 +1,6 @@
 from django import forms
 
-from shop.models import Comment
+from shop.models import Comment, Order
 
 
 class CommentForm(forms.Form):
@@ -17,3 +17,9 @@ class CommentModelForm(forms.ModelForm):
 	class Meta:
 		model = Comment
 		fields = ['text']
+
+
+class OrderModelForm(forms.ModelForm):
+	class Meta:
+		model = Order
+		fields = '__all__'

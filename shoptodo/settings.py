@@ -34,7 +34,6 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'shop.apps.ShopConfig',
-    #'cart.apps.CartConfig'
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -127,7 +126,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 MEDIA_URL = '/media/'
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(PROJECT_DIR, 'static/')
+STATIC_ROOT = os.path.join(PROJECT_DIR, 'static_media/')
 MEDIA_ROOT = os.path.join(PROJECT_DIR, 'media/')
 STATICFILES_DIRS = [os.path.join(PROJECT_DIR, 'static/')]
 

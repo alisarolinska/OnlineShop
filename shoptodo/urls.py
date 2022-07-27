@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.template.defaulttags import url
-from django.urls import path, re_path
+from django.urls import path, re_path, include
 from django.views.static import serve
 
 from shoptodo import settings
@@ -24,6 +24,7 @@ from shop import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.home_page, name='home'),
+    path('', include('shop.urls'))
 ]
 
 urlpatterns += [
