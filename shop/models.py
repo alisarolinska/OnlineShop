@@ -1,4 +1,7 @@
 from django.db import models
+from django.contrib.auth.models import User
+
+from shoptodo import settings
 
 
 class Category(models.Model):
@@ -10,17 +13,6 @@ class Category(models.Model):
 
     def __str__(self):
         return self.name
-
-
-class Customer(models.Model):
-    first_name = models.CharField(max_length=50)
-    last_name = models.CharField(max_length=50)
-    phone = models.CharField(max_length=10)
-    email = models.EmailField()
-    password = models.CharField(max_length=100)
-
-    def register(self):
-        self.save()
 
 
 class Product(models.Model):
@@ -37,7 +29,7 @@ class Product(models.Model):
 class Comment(models.Model):
     id = models.AutoField(primary_key=True)
     text = models.TextField()
-    user = models.ForeignKey(Customer, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
 
@@ -45,7 +37,7 @@ class Comment(models.Model):
 class Order(models.Model):
     product = models.ForeignKey(Product,
                                 on_delete=models.CASCADE)
-    customer = models.ForeignKey(Customer,
+    customer = models.ForeignKey(User,
                                  on_delete=models.CASCADE)
     quantity = models.IntegerField(default=1)
     price = models.IntegerField()
@@ -58,3 +50,38 @@ class Order(models.Model):
         self.save()
 
 
+class Cart(models.Model):
+    customer = models.ForeignKey(User,
+                                 on_delete=models.CASCADE)
+
+    def __init__(self, request):
+        self.session = request.session
+        cart = self.session.get(settings.CART_SESSION_ID)
+        if not cart:
+            cart = self.session[settings.CART_SESSION_ID] = {}
+        self.cart = cart
+
+    def add(self, product, quantity=1, update_quantity=False):
+        product_id = str(product.id)
+        if product_id not in self.cart:
+            self.cart[product_id] = {'quantity': 0,
+                                     'price': str(product.price)}
+        if update_quantity:
+            self.cart[product_id]['quantity'] = quantity
+        else:
+            self.cart[product_id]['quantity'] += quantity
+        self.save()
+
+    def save(self, **kwargs):
+        self.session[settings.CART_SESSION_ID] = self.cart
+        self.session.modified = True
+
+    def remove(self, product):
+        product_id = str(product.id)
+        if product_id in self.cart:
+            del self.cart[product_id]
+            self.save()
+
+    def clear(self):
+        del self.session[settings.CART_SESSION_ID]
+        self.session.modified = True
