@@ -4,15 +4,28 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.http import require_POST
 
 from shop.forms import CommentModelForm, OrderModelForm, CartAddProductForm
-from shop.models import Comment, Product, Order, Cart
+from shop.models import Comment, Product, Order, Cart, Category
 
 
 def home_page(request):
-    return render(request, 'index.html')
+	query = request.GET.get('query', None)
+	if query is not None:  # text like "%...%"
+		products = Product.objects.filter(description__icontains=query).order_by('-created_at')
+		category = Category.objects.filter(description__icontains=query).order_by('-created_at')
+	else:
+		products = Product.objects.order_by('-created_at')
+		category = Category.objects.order_by('-name')
+	context = {
+		'products': products,
+		'categories': category,
+		'current_user': request.user
+	}
+	return render(request, 'index.html', context)
+
 
 
 def get_products_by_category(request, category):
-	products = Product.objects.filter(category = category)
+	products = Product.objects.filter(category = Category)
 	response = f'<h1>Всего найдено {len(products)}<br></h1>'
 	for product in products:
 		response += f'{product.title}<br>'
@@ -21,12 +34,12 @@ def get_products_by_category(request, category):
 
 def get_product_detail(request, product_id):
 	try:
-		task = Product.objects.get(id=product_id)
+		product = Product.objects.get(id=product_id)
 	except Product.DoesNotExist:
-		return HttpResponse(f'Задачи с номером {product_id} не существует!')
+		return HttpResponse(f'Товара с номером {product_id} не существует!')
 	context = {
-		'task': task,
-		'comments': Comment.objects.filter(task_id=product_id).order_by('-id').all(),
+		'product': product,
+		'comments': Comment.objects.filter(product=product_id).order_by('-id').all(),
 		'comment_form': CommentModelForm(),
 		'order_form': OrderModelForm()
 	}
@@ -41,7 +54,7 @@ def comment_views(request, product_id):
 			Comment.objects.create(
 				user=request.user,
 				text=form.data['text'],
-				task_id=product_id
+				product=product_id
 			)
 		return redirect(request.headers.get('Referer'))  # Вернуть пользователя на пред. страницу
 	else:

@@ -1,4 +1,4 @@
-{% extends "shop/index.html" %}
+{% extends "index.html" %}
 {% load staticfiles %}
 {% load bootstrap3 %}
 {% block title %}
@@ -53,11 +53,7 @@
                                 <div class="order">
                                     <h3>Place order</h3>
 
-                                <form action="{% url 'order' %}" method="post">
-                                    {% csrf_token %}
-                                    {{ order_form }}
-                                        <button type="submit"> Place order </button>
-                                </form>
+
                                 </div>
                             </td>
 
@@ -84,6 +80,11 @@
                     <td>  </td>
                     <td>  </td>
                     <td>
+                        <form action="{% url 'order' %}" method="post">
+                                    {% csrf_token %}
+                                    {{ order_form }}
+                                        <button type="submit"> Place order </button>
+                                </form>
                         <a href="{% url 'shop:product_list' %}" class="btn btn-default">
                             Continue Shopping <i class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></i>
                         </a>

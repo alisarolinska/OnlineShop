@@ -21,7 +21,7 @@ class Product(models.Model):
     description = models.TextField()
     category = models.ForeignKey(Category, on_delete=models.CASCADE, default=1)
     image = models.ImageField(upload_to='images/')
-    price = models.PositiveIntegerField()
+    price = models.CharField(max_length=20)
     updated_at = models.DateTimeField(auto_now=True)
     created_at = models.DateTimeField(auto_now_add=True)
 

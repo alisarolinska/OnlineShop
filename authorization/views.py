@@ -27,7 +27,7 @@ def authorization(request):
 			return render(request, 'login.html', context)
 		else:
 			login(request, user)
-			return redirect('all_tasks')
+			return redirect('home')
 
 
 def registration(request):
@@ -55,7 +55,7 @@ def registration(request):
 			email=form.data['email'],
 			password=password
 		)
-		return redirect('all_tasks')
+		return redirect('home')
 
 
 def logout_user(request):

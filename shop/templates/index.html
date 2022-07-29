@@ -32,15 +32,8 @@
 </head>
 <!-- body -->
 
-<body class="main-layout">
-    <!-- loader  -->
-    <div class="loader_bg">
-        <div class="loader"><img src="images/loading.gif" alt="#" /></div>
-    </div>
-
-    <div class="wrapper">
-
-        <!-- end loader -->
+<html>
+    class="main-layout">
         <div class="sidebar">
             <!-- Sidebar  -->
             <nav id="sidebar">
@@ -71,7 +64,7 @@
             </nav>
         </div>
 
-        <div id="content">
+        <body id="content">
             <!-- header -->
             <header>
                 <!-- header inner -->
@@ -205,219 +198,35 @@
                         <div class="col-md-12">
                             <div class="title">
                                 <h2> Categories</h2>
-                                <ul class="categiri">
-                                    <li class="active"><a href="#">Clothing</a></li>
-                                    <li><a href="#">Electronics</a></li>
-                                    <li><a href="#shoes">Shoes</a></li>
-                                    <li><a href="#">Watches</a></li>
-                                    <li><a href="#jewellery">Jewellery</a></li>
-                                    <li><a href="#">Health and Beauty</a></li>
-                                    <li><a href="#kids">Kids and Babies</a></li>
-                                    <li><a href="#">Sports</a></li>
-                                    <li><a href="#">Home and Garden</a></li>
+                                {% for category in categories %}
+                                <ul class="categories">
+                                    <li class="active"><a href="{% url 'category' %}">{{category.name}}</a></li>
                                 </ul>
+                                {% endfor %}
                             </div>
                         </div>
+
                     </div>
-
-                    <!-- news brand -->
-                    <div id="brand"  class="brand-bg">
-                        <h3>New brands</h3>
-                        <div class="row">
-                            <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12 margintop">
-                                <div class="brand-box">
-                                    <h5>Sale</h5>
-                                    <i><img src="{% static 'assets/images/logo.png'%}"/>
-                                </i>
-                                    <h4>Price $<span class="nolmal">100</span></h4>
-
-                                </div>
-                                <a class="buynow" href="#">Buy now</a>
-                            </div>
-                            <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12 margintop">
-                                <div class="brand-box">
-                                    <i><img src="{% static 'assets/images/logo.png'%}"/></i>
-                                    <h4>Price $<span class="nolmal">100</span></h4>
-                                </div>
-                                <a class="buynow" href="#">Buy now</a>
-                            </div>
-                            <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12">
-                                <div class="brand-box">
-                                    <i><img src="{% static 'assets/images/logo.png'%}"/></i>
-                                    <h4>Price $<span class="nolmal">100</span></h4>
-                                </div>
-                                <a class="buynow" href="#">Buy now</a>
-                            </div>
-                            <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12">
-                                <div class="brand-box">
-                                    <i><img src="{% static 'assets/images/logo.png'%}"/></i>
-                                    <h4>Price $<span class="nolmal">100</span></h4>
-                                </div>
-                                <a class="buynow" href="#">Buy now</a>
-                            </div>
-                        </div>
-                    </div>
-                    <a class="seemore" href="#">See more</a>
-                    <!-- end news brand -->
-
-                    <!-- news shoes -->
-                    <div id="shoes" class="shoes-bg">
-                        <h3>New shoes</h3>
-                        <div class="row">
-                            <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12 margintop">
-                                <div class="shoes-box">
-                                    <h5>Sale</h5>
-                                    <i><img src="{% static 'assets/images/logo.png'%}"/>
-                                </i>
-                                    <h4>Price $<span class="nolmal">100</span></h4>
-
-                                </div>
-                                <a class="buynow" href="#">Buy now</a>
-                            </div>
-                            <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12 margintop">
-                                <div class="shoes-box">
-                                    <i><img src="{% static 'assets/images/logo.png'%}"/></i>
-                                    <h4>Price $<span class="nolmal">100</span></h4>
-                                </div>
-                                <a class="buynow" href="#">Buy now</a>
-                            </div>
-                            <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12">
-                                <div class="shoes-box">
-                                    <i><img src="{% static 'assets/images/logo.png'%}"/></i>
-                                    <h4>Price $<span class="nolmal">100</span></h4>
-                                </div>
-                                <a class="buynow" href="#">Buy now</a>
-                            </div>
-                            <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12">
-                                <div class="shoes-box">
-                                    <i><img src="{% static 'assets/images/logo.png'%}"/></i>
-                                    <h4>Price $<span class="nolmal">100</span></h4>
-                                </div>
-                                <a class="buynow" href="#">Buy now</a>
-                            </div>
-                        </div>
-                    </div>
-                    <a class="seemore" href="#">See more</a>
-                </div>
-
-            </div>
-        </div>
-        <!-- end news shoes -->
 
     <!-- end Categories -->
+        <main class="main-container">
+      <section class="content-container">
+        <div class="content">
+          <div class="Product catalog">
+              {% for product in products %}
+              <div class="u-container-layout u-similar-container u-valign-top u-container-layout-1">
+                <img src="{{ product.image.url }}" alt="" class="u-expanded-width u-image u-image-default u-image-1" data-image-width="864" data-image-height="1080">
+                <h3 class="u-text u-text-3">{{ product.price }}</h3>
+                <h6 class="u-text u-text-4">{{product.title}}</h6>
+                <span class="post__date-time">{{ product.created_at }}</span>
+                  <br> <a href="{% url 'detail' product.id %}">Buy now</a> <br>
+              </div>
+               {% endfor %}
+          </div>
 
-    <section>
-        <!--  save -->
-
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="save">
-                    <div class="row">
-                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
-                            <div class="save_box">
-                                <h3>save up to 50%</h3>
-                                <a href="#">Buy now</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- end save -->
-    </section>
-
-    <!-- news Jewellery -->
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12">
-                <div id="jewellery" class="Jewellery-bg">
-                    <h3>New Jewellery</h3>
-                    <div class="row">
-                        <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12 margintop">
-                            <div class="Jewellery-box">
-                                <h5>Sale</h5>
-                                <i><img src="{% static 'assets/images/logo.png'%}"/>
-                                </i>
-                                <h4>Price $<span class="nolmal">100</span></h4>
-
-                            </div>
-                            <a class="buynow" href="#">Buy now</a>
-                        </div>
-                        <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12 margintop">
-                            <div class="Jewellery-box">
-                                <i><img src="{% static 'assets/images/logo.png'%}"/></i>
-                                <h4>Price $<span class="nolmal">100</span></h4>
-                            </div>
-                            <a class="buynow" href="#">Buy now</a>
-                        </div>
-                        <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12">
-                            <div class="Jewellery-box">
-                                <i><img src="{% static 'assets/images/logo.png'%}"/></i>
-                                <h4>Price $<span class="nolmal">100</span></h4>
-                            </div>
-                            <a class="buynow" href="#">Buy now</a>
-                        </div>
-                        <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12">
-                            <div class="Jewellery-box">
-                                <i><img src="{% static 'assets/images/logo.png'%}"/></i>
-                                <h4>Price $<span class="nolmal">100</span></h4>
-                            </div>
-                            <a class="buynow" href="#">Buy now</a>
-                        </div>
-                    </div>
-                </div>
-                <a class="seemore" href="#">See more</a>
-            </div>
-        </div>
-    </div>
-    <!-- end news Jewellery -->
-
-    <!-- news Kids -->
-    <div id="kids" class="Kids_background">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="Kids-bg">
-                        <h3>Kids and Babies</h3>
-                        <div class="row">
-                            <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12 margintop">
-                                <div class="Kids-box">
-
-                                    <i><img src="{% static 'assets/images/logo.png'%}"/>
-                                </i>
-                                    <h4>Price $<span class="nolmal">100</span></h4>
-
-                                </div>
-                            </div>
-                            <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12 margintop">
-                                <div class="Kids-box">
-                                    <i><img src="{% static 'assets/images/logo.png'%}"/></i>
-                                    <h4>Price $<span class="nolmal">100</span></h4>
-                                </div>
-                            </div>
-                            <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12">
-                                <div class="Kids-box">
-                                    <i><img src="{% static 'assets/images/logo.png'%}"/></i>
-                                    <h4>Price $<span class="nolmal">100</span></h4>
-                                </div>
-                            </div>
-                            <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12">
-                                <div class="Kids-box">
-                                    <i><img src="{% static 'assets/images/logo.png'%}"/></i>
-                                    <h4>Price $<span class="nolmal">100</span></h4>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- end news Kids -->
-
+ </div>
+     </section>
+        </main>
     <!--  footer -->
     <footer>
         <div class="footer">
@@ -429,14 +238,6 @@
                                 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
                                     <a href="index.html"> <img class="logo1" src="{% static 'assets/images/logo.png'%}" /></a>
                                 </div>
-                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
-                                    <ul class="sociel">
-                                        <li> <a href="#"><i class="fa fa-facebook-f"></i></a></li>
-                                        <li> <a href="#"><i class="fa fa-twitter"></i></a></li>
-                                        <li> <a href="#"><i class="fa fa-instagram"></i></a></li>
-                                        <li> <a href="#"><i class="fa fa-linkedin"></i></a></li>
-                                    </ul>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -445,54 +246,16 @@
                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 ">
                         <div class="row">
                             <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 ">
-                                <div class="address">
-                                    <h3>Contact us </h3>
-                                    <ul class="loca">
-                                        <li>
-                                            <a href="#"><img src="{% static 'assets/images/logo.png'%}" alt="#" /></a>145 londone
-                                            <br>uk </li>
-                                        <li>
-                                            <a href="#"><img src="{% static 'assets/images/logo.png'%}" alt="#" /></a>+12586954775 </li>
-                                        <li>
-                                            <a href="#"><img src="{% static 'assets/images/logo.png'%}" alt="#" /></a>demo@gmail.com </li>
-
-                                    </ul>
-
-                                </div>
                             </div>
                             <div class="col-lg-3 col-md-6 col-sm-6">
                                 <div class="address">
                                     <h3>customer service</h3>
                                     <ul class="Menu_footer">
                                         <li class="active"> <a href="#">My account</a> </li>
-                                        <li><a href="#">Wishlist</a> </li>
-                                        <li><a href="#">My Cart</a> </li>
+                                        <li><a href="{% url 'cart_detail' %}">My Cart</a> </li>
                                         <li><a href="#">Checkout</a> </li>
-                                        <li><a href="#">Login</a> </li>
+                                        <li><a href="{% url 'login' %}">Login</a> </li>
                                     </ul>
-                                </div>
-                            </div>
-                            <div class="col-lg-3 col-md-6 col-sm-6">
-                                <div class="address">
-                                    <h3>corporation</h3>
-                                    <ul class="Links_footer">
-                                        <li class="active"><a href="#">My account</a> </li>
-                                        <li><a href="#">Wishlist</a> </li>
-                                        <li><a href="#">My Cart</a> </li>
-                                        <li><a href="#"> Checkout</a> </li>
-                                        <li><a href="#">Login</a> </li>
-                                    </ul>
-                                </div>
-                            </div>
-
-                            <div class="col-lg-3 col-md-6 col-sm-6 ">
-                                <div class="address">
-                                    <h3>why choose us</h3>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna </p>
-                                    <form class="newtetter">
-                                        <input class="tetter" placeholder="Your email" type="text" name="Your email">
-                                        <button class="submit">Subscribe</button>
-                                    </form>
                                 </div>
                             </div>
                         </div>
@@ -587,6 +350,7 @@
     <!-- google map js -->
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA8eaHt9Dh5H57Zh0xVTqxVdBFCvFMqFjQ&callback=initMap"></script>
     <!-- end google map js -->
-</body>
-
+            </div>
+            </div>
+        </body>
 </html>
