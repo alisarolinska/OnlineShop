@@ -1,25 +1,24 @@
+{% extends "index.html" %}
+{% load static %}
 
-{% extends 'index.html' %}
-{% block TITLE %}
-    {{ title }}
-{% endblock TITLE %}
-
-{% block CONTENT %}
-    <h2>{{ product.title }}</h2>
-    <p>{{ product.description }}</p>
-    <p>Category: {{ product.category }}</p>
-    <p>Created at: {{ product.created_at }}</p>
-
-<div class="forms">
-        <div class="comments">
+{% block content %}
+    <div class="product-detail">
+        <img src="{% if product.image %}{{ product.image.url }}{% else %}{% static 'img/no_image.png'%}{% endif %}">
+        <h1>{{ product.title }}</h1>
+        <h2><a href="{{ product.category.get_absolute_url }}">{{ product.category }}</a></h2>
+        <p class="price">{{ product.price }}</p>
+        {{ product.description|linebreaks }}
+        {{ product.created_at|linebreaks }}
+        {{ product.updated_at|linebreaks }}
+    </div>
+    <div class="forms">
+   <div class="comments">
             <h3>Leave comments</h3>
             <form action="{% url 'comment' product.id %}" method="post">
                 {% csrf_token %}
                 {{ comment_form }}
                 <button type="submit">Submit</button>
             </form>
-        </div>
-
 
     </div>
 
@@ -37,11 +36,12 @@
     <div class="order">
             <h3>Place order</h3>
 
-            <form action="{% url 'order' %}" method="post">
+            <form action="{% url 'order' product.id %}" method="post">
                 {% csrf_token %}
                 {{ order_form }}
                 <button type="submit"> Place order </button>
             </form>
         </div>
+    </div>
 
-{% endblock CONTENT %}
+{% endblock %}
