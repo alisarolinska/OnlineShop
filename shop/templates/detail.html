@@ -11,37 +11,11 @@
         {{ product.created_at|linebreaks }}
         {{ product.updated_at|linebreaks }}
     </div>
-    <div class="forms">
-   <div class="comments">
-            <h3>Leave comments</h3>
-            <form action="{% url 'comment' product.id %}" method="post">
-                {% csrf_token %}
-                {{ comment_form }}
-                <button type="submit">Submit</button>
-            </form>
 
-    </div>
-
-    <div class="list-comments">
-        {% if comments %}
-            {% for comment in comments %}
-                <p>{{ comment.user.username }}: {{ comment.text }}</p>
-                <span>{{ comment.created_at }}</span>
-            {% endfor %}
-        {% else %}
-            <p>No comments yet</p>
-        {% endif %}
-        </div>
-
-    <div class="order">
-            <h3>Place order</h3>
-
-            <form action="{% url 'order' product.id %}" method="post">
-                {% csrf_token %}
-                {{ order_form }}
-                <button type="submit"> Place order </button>
-            </form>
-        </div>
-    </div>
+<div class = "detail-content">
+   <a href="{% url 'order_create' %}" class="button">
+    Checkout
+    </a>
+</div>
 
 {% endblock %}

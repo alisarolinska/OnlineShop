@@ -27,26 +27,12 @@ class Product(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
 
-class Comment(models.Model):
-    id = models.AutoField(primary_key=True)
-    text = models.TextField()
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    created_at = models.DateTimeField(auto_now_add=True)
-
-
 class Order(models.Model):
-    product = models.ForeignKey(Product,
-                                on_delete=models.CASCADE)
-    customer = models.ForeignKey(User,
-                                 on_delete=models.CASCADE)
-    quantity = models.IntegerField(default=1)
-    price = models.IntegerField()
-    address = models.CharField(max_length=50, default='', blank=True)
-    phone = models.CharField(max_length=50, default='', blank=True)
-    date = models.DateTimeField(auto_now_add=True)
-    status = models.BooleanField(default=False)
+    first_name = models.CharField(max_length=50)
+    last_name = models.CharField(max_length=50)
+    email = models.CharField(max_length=250)
+    address = models.CharField(max_length=250)
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
 
-    def placeOrder(self):
-        self.save()
 

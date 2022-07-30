@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 {% load static%}
-{% block content %}
+
 <head>
     <!-- basic -->
     <meta charset="utf-8">
@@ -66,6 +66,7 @@
         </div>
 
         <body id="content">
+        {% block content %}
             <!-- header -->
             <header>
                 <!-- header inner -->
@@ -252,9 +253,6 @@
                                 <div class="address">
                                     <h3>customer service</h3>
                                     <ul class="Menu_footer">
-                                        <li class="active"> <a href="#">My account</a> </li>
-                                        <li><a href="#">My Cart</a> </li>
-                                        <li><a href="#">Checkout</a> </li>
                                         <li><a href="{% url 'login' %}">Login</a> </li>
                                     </ul>
                                 </div>
@@ -353,6 +351,6 @@
     <!-- end google map js -->
             </div>
             </div>
+        {% endblock %}
         </body>
-{% endblock %}
 </html>

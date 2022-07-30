@@ -1,11 +1,12 @@
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect, get_object_or_404
+from django.views import View
 from django.views.decorators.http import require_POST
 from django.views.generic import ListView, DetailView
 
-from shop.forms import CommentModelForm, OrderModelForm
-from shop.models import Comment, Product, Order, Category
+from shop.forms import OrderCreateForm
+from shop.models import Product, Category
 
 
 class ProductView(ListView):
@@ -38,20 +39,7 @@ def get_products_by_category(request, category):
 		response += f'{product.title}<br>'
 	return HttpResponse(response)
 
-"""
-def get_product_detail(request, product_id):
-	try:
-		product = Product.objects.get(id=product_id)
-	except Product.DoesNotExist:
-		return HttpResponse(f'Товара с номером {product_id} не существует!')
-	context = {
-		'product': product,
-		'comments': Comment.objects.filter(product=product_id).order_by('-id').all(),
-		'comment_form': CommentModelForm(),
-		'order_form': OrderModelForm()
-	}
-	return render(request, 'detail.html', context)
-"""
+
 
 def product_detail_view(request, id):
     product = get_object_or_404(Product, id=id)
@@ -60,29 +48,13 @@ def product_detail_view(request, id):
 
 
 @login_required(login_url='login')
-def comment_views(request, product_id):
+def order_create(request):
 	if request.method == 'POST':
-		form = CommentModelForm(request.POST)
+		form = OrderCreateForm(request.POST)
 		if form.is_valid():
-			Comment.objects.create(
-				user=request.user,
-				text=form.data['text'],
-				product=product_id
-			)
-		return redirect(request.headers.get('Referer'))  # Вернуть пользователя на пред. страницу
-	else:
-		return redirect('home')
-
-
-@login_required(login_url='login')
-def order_views(request, product_id):
-	if request.method == 'POST':
-		form = OrderModelForm(request.POST)
-		if form.is_valid():
-			Order.objects.create(
-				user=request.user,
-				product=product_id
-			)
 			form.save()
-	return redirect(request.headers.get('Referer'))  # Вернуть пользователя на пред. страницу
+	return redirect(request.headers.get('Referer'))
 
+
+def order_page(request):
+	return render(request, 'orders.html')
