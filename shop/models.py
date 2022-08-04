@@ -22,16 +22,18 @@ class Product(models.Model):
     description = models.TextField()
     category = models.ForeignKey(Category, on_delete=models.CASCADE, default=1)
     image = models.ImageField(upload_to='images/')
-    price = models.CharField(max_length=20)
+    price = models.CharField(max_length=20)  # FloatField
+    # currency = models.CharField(max_length=3, default='UAH')
     updated_at = models.DateTimeField(auto_now=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
 
 class Order(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, default=1)
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
     email = models.CharField(max_length=250)
-    address = models.CharField(max_length=250)
+    address = models.CharField(max_length=250)  # @TODO add product
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 

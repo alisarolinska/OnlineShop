@@ -1,0 +1,40 @@
+{% extends 'index.html' %}
+
+{% block CONTENT %}
+    <!-- Categories -->
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="title">
+                                <h2> Categories</h2>
+                                {% for category in categories %}
+                                <ul class="categories">
+                                    <li class="active"><a href="{% url 'category' category.id %}">{{category.name}}</a></li>
+                                </ul>
+                                {% endfor %}
+                            </div>
+                        </div>
+
+                    </div>
+
+    <!-- end Categories -->
+        <main class="main-container">
+      <section class="content-container">
+        <div class="content">
+          <div class="Product catalog">
+              {% for product in products %}
+              <div class="u-container-layout u-similar-container u-valign-top u-container-layout-1">
+                 <a href="{% url 'product-detail' product.id %}">
+                <img src="{{ product.image.url }}" alt="" class="u-expanded-width u-image u-image-default u-image-1" data-image-width="864" data-image-height="1080"></a>
+                <h3 class="u-text u-text-3">{{ product.price }}</h3>
+                <h6 class="u-text u-text-4">{{product.title}}</h6>
+                <span class="post__date-time">{{ product.created_at }}</span>
+                  <br> <a href="{% url 'product-detail' product.id %}">Buy now</a> <br>
+              </div>
+               {% endfor %}
+          </div>
+
+ </div>
+     </section>
+        </main>
+{% endblock CONTENT %}

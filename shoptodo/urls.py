@@ -23,7 +23,7 @@ from shop import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('home/', views.home_page, name='home'),
+    path('', views.home_page, name='home'),
     path('shop/', include('shop.urls')),
     path('auth/', include('authorization.urls'))
 ]
@@ -34,3 +34,11 @@ urlpatterns += [
     re_path(r'^static/(?P<path>.*)$', serve,
         {'document_root': settings.STATIC_ROOT}),
 ]
+
+
+"""
+1) Добавлять следующие страницы с помощью базового шаблона
+2) В модель Order нужно добавить связь с Product !готово!
+3) Прописать корректные ссылки !вроде готово!!!
+"""
+

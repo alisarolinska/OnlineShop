@@ -130,10 +130,13 @@
   <body>
     <div class="main-block">
       <h1>Order Form</h1>
-      <form action="{% url 'order_created' %}" method="post">
+      <form style="display: flex;
+    flex-direction: column;" action="{% url 'order_create' product %}" method="post">
                 {% csrf_token %}
                 {{ order_form }}
-                <button type="submit">Submit</button>
+                <a href="{% url 'home' %}" class="button">
+    Place order
+    </a>
             </form>
     </div>
   </body>

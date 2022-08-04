@@ -16,28 +16,24 @@ class ProductView(ListView):
 
 
 def home_page(request):
-	query = request.GET.get('query', None)
-	if query is not None:  # text like "%...%"
-		products = Product.objects.filter(description__icontains=query).order_by('-created_at')
-		category = Category.objects.filter(description__icontains=query).order_by('-created_at')
-	else:
-		products = Product.objects.order_by('-created_at')
-		category = Category.objects.order_by('-name')
+	products = Product.objects.order_by('-created_at')
+	category = Category.objects.order_by('-name')
 	context = {
 		'products': products,
 		'categories': category,
 		'current_user': request.user
 	}
-	return render(request, 'index.html', context)
+	return render(request, 'home.html', context)
 
 
 
 def get_products_by_category(request, category):
-	products = Product.objects.filter(category=category)
-	response = f'<h1>Всего найдено {len(products)}<br></h1>'
-	for product in products:
-		response += f'{product.title}<br>'
-	return HttpResponse(response)
+	context = {
+		'products': Product.objects.filter(category=category),
+		'category': Category.objects.get(pk=category),
+		'current_user': request.user
+	}
+	return render(request, 'category.html', context)
 
 
 
@@ -48,13 +44,16 @@ def product_detail_view(request, id):
 
 
 @login_required(login_url='login')
-def order_create(request):
+def order_create(request, product_id):
+	if request.method == 'GET':
+		form = OrderCreateForm()
+		return render(request, 'orders.html', context={'order_form': form,
+													   'product':product_id
+													   })
 	if request.method == 'POST':
 		form = OrderCreateForm(request.POST)
 		if form.is_valid():
 			form.save()
-	return redirect(request.headers.get('Referer'))
+	return render(request, 'home.html')
 
 
-def order_page(request):
-	return render(request, 'orders.html')
