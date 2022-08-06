@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'index.html' %}
 
 {% block TITLE %}
 Login
@@ -8,7 +8,7 @@ Login
     <form class="login-form" action="{% url 'login' %}" method="post">
         {% csrf_token %}
         {{ form }}
-        <button type="submit">Login</button>
+        <br><button type="submit">Login</button></br>
         {% if error %}
             <div class="error">{{ error }}</div>
         {% endif %}
